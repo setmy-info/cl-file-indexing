@@ -72,4 +72,4 @@ java -jar ./target/uberjar/cl-file-indexing-0.1.0-SNAPSHOT-standalone.jar -d ./s
 3. Check full-name doesn't exist before insert
 4. db file should not be added to table
 5. CLI option parser doesn't validate
-6. Creation, modify date times into DB
+6. Creation, modify date times into DB.
