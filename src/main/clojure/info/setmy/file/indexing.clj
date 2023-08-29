@@ -4,6 +4,7 @@
     (:require [clojure.java.io :as io]
               [info.setmy.traversal :as traversal]
               [info.setmy.file.cli :as cli]
+              [info.setmy.file.directory :as directory]
               [info.setmy.file.validation :as validation]
               [info.setmy.file.file-info-db :as file-info-db]))
 
@@ -31,8 +32,12 @@
     * **args** (string): Command-line arguments."
     [& args]
     (cli/parse-arguments args)
-    (let [opts             (validation/validate (:options (cli/get-opts)))
-          file-path        (:directory opts)]
-        (println "Directory to be recursivelly handled:" file-path)
-        (file-info-db/init)
-        (traversal/traverse-files (io/file file-path) file-processor)))
+    (try
+        (let [options                  (validation/validate-options (cli/get-options))
+              directory-path           (:directory options)]
+            (validation/validate-directory-path directory-path)
+            (println "Directory to be recursivelly handled:" directory-path)
+            (directory/set-root-path directory-path)
+            (file-info-db/init)
+            (traversal/traverse-files (io/file directory-path) file-processor))
+        (catch RuntimeException e (println "Error:" (.getMessage e)))))

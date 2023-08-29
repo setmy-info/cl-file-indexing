@@ -4,10 +4,12 @@
     (:require
         [clojure.tools.cli :refer [parse-opts]]))
 
-(def cli-options
+(def argument-parser-config
     [["-d"
       "--directory DIRECTORY"
-      "Directory to index into DB."]
+      "Directory to index into DB."
+      :validate
+      [(fn [value] (not (nil? value))) "Path must be set"]]
      ["-v"
       nil
       "Verbosity level"
@@ -16,12 +18,15 @@
       :update-fn inc]
      ["-h" "--help"]])
 
-(defonce parsed-opts-atom (atom nil))
+(defonce parsed-options-atom (atom nil))
 
-(defn get-opts [] @parsed-opts-atom)
+(defn get-all-options []
+    @parsed-options-atom)
 
-(defn parse-arguments
-    [args]
-    (when (nil? @parsed-opts-atom)
-          (swap! parsed-opts-atom (fn [_] (parse-opts args cli-options))))
-    @parsed-opts-atom)
+(defn get-options []
+    (:options (get-all-options)))
+
+(defn parse-arguments [args]
+    (when (nil? @parsed-options-atom)
+          (swap! parsed-options-atom (fn [_] (parse-opts args argument-parser-config))))
+    @parsed-options-atom)
