@@ -31,13 +31,13 @@ lein deploy clojars
 Run
 
 ```shell
-lein run ./src/test/resources/root
+lein run -d ./src/test/resources/root
 ```
 
 With built uberjar:
 
 ```shell
-java -jar ./target/uberjar/cl-file-indexing-0.1.0-SNAPSHOT-standalone.jar ./src/test/resources/root
+java -jar ./target/uberjar/cl-file-indexing-0.1.0-SNAPSHOT-standalone.jar -d ./src/test/resources/root
 
 ```
 

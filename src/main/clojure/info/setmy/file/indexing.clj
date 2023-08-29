@@ -3,7 +3,8 @@
     (:gen-class)
     (:require [clojure.java.io :as io]
               [info.setmy.traversal :as traversal]
-              [info.setmy.validation :as validation]
+              [info.setmy.file.cli :as cli]
+              [info.setmy.file.validation :as validation]
               [info.setmy.file.file-info-db :as file-info-db]))
 
 (defn file-processor
@@ -29,9 +30,9 @@
 
     * **args** (string): Command-line arguments."
     [& args]
-    (if (validation/validate-arguments args)
-        (let [file-path (first args)]
-            (println "Directory to be recursivelly handled:" file-path)
-            (file-info-db/init)
-            (traversal/traverse-files (io/file file-path) file-processor))
-        (println "Directori is not passed")))
+    (cli/parse-arguments args)
+    (let [opts             (validation/validate (:options (cli/get-opts)))
+          file-path        (:directory opts)]
+        (println "Directory to be recursivelly handled:" file-path)
+        (file-info-db/init)
+        (traversal/traverse-files (io/file file-path) file-processor)))
