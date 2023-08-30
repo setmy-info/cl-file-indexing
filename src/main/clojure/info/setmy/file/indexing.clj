@@ -15,14 +15,21 @@
 
     * **file-info** (map): A map containing file information."
     [file-info]
-    (println "Full path:" (:full-path file-info))
-    (println "Name:" (:name file-info))
-    (println "Length:" (:length file-info))
-    (println "Extension:" (:extension file-info))
-    (println "Last modify date:" (:last-modified-date file-info))
-    ; TODO : remove (:full-path file-info) prefix part - root folder part. C:\sources\cl-file-indexing\.\src\test\resources\root\.no_extension_file -> C:\sources\cl-file-indexing\.\src\test\resources\root\ should be removed
-    ; TODO : turn to unix stule folder separator before adding
-    (file-info-db/add-file-info file-info))
+    (let [full-path                (:full-path file-info)
+          os-relative-path         (directory/remove-root-full-path full-path)
+          unix-style-relative-path (directory/to-unix-path os-relative-path)
+          new-file-info            (assoc file-info :relative-path unix-style-relative-path)]
+        (comment (println new-file-info)
+                 (println "Directory File:" (directory/get-root-directory-file))
+                 (println "Directory full path:" (directory/get-root-directory-file-full-path))
+                 (println "File relative path:" unix-style-relative-path)
+                 (println "File:" (:file new-file-info))
+                 (println "Full path:" (:full-path new-file-info))
+                 (println "Name:" (:name new-file-info))
+                 (println "Length:" (:length new-file-info))
+                 (println "Extension:" (:extension new-file-info))
+                 (println "Last modify date:" (:last-modified-date new-file-info)))
+        (file-info-db/add-file-info new-file-info)))
 
 (defn -main
     "Entry point of the application. Traverses files starting from the specified root path.

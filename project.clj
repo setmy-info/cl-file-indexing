@@ -9,7 +9,8 @@
                    [info.setmy/clj-file-traversal "0.1.0"]
                    [org.clojure/java.jdbc "0.7.12"]
                    [com.h2database/h2 "2.2.220"]
-                   [org.clojure/tools.cli "1.0.219"]]
+                   [org.clojure/tools.cli "1.0.219"]
+                   [org.clojure/data.json "2.4.0"]]
     :plugins [[lein-codox "0.10.8"]]
     :main ^:skip-aot info.setmy.file.indexing
     :target-path "target/%s"

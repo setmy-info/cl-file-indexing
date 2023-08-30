@@ -10,6 +10,11 @@
       "Directory to index into DB."
       :validate
       [(fn [value] (not (nil? value))) "Path must be set"]]
+     ["-i"
+      "--indexing DB_NAME"
+      "DB name."
+      :default
+      "indexing"]
      ["-v"
       nil
       "Verbosity level"
