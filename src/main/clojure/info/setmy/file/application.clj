@@ -1,6 +1,5 @@
 (ns info.setmy.file.application
-    "Application yaml/properties/toml representing functionality."
-    (:require [java.util Properties]))
+    "Application yaml/properties/toml representing functionality.")
 
 (def application-properties-file-name "application.properties")
 (def application-yaml-file-name "application.yaml")
@@ -16,17 +15,18 @@
     @parsed-application-properties-atom)
 
 (defn load-properties-from-classpath [filename]
-    (let [classloader (Thread/currentThread)
-          .getContextClassLoader
-          properties
-          (Properties.)]
-        (with-open [stream (.getResourceAsStream classloader filename)]
-            (if stream
-                (do
-                    (.load properties stream)
-                    properties)
-                (throw (Exception. (str "Faili " filename " ei leitud CLASSPATH-ilt")))))))
-
+    (comment
+        (let [classloader (Thread/currentThread)
+              .getContextClassLoader
+              properties
+              (Properties.)]
+            (with-open [stream (.getResourceAsStream classloader filename)]
+                (if stream
+                    (do
+                        (.load properties stream)
+                        (set-application-properties properties)
+                        properties)
+                    (throw (Exception. (str "File " filename " not found on CLASSPATH"))))))))
 
 (defn init []
     (load-properties-from-classpath application-properties-file-name))
