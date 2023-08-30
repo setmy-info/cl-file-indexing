@@ -15,6 +15,9 @@
       "DB name."
       :default
       "indexing"]
+     ["-p"
+      "--profiles PROFILE_ONE,PROFILE_TWO"
+      "Profiles."]
      ["-v"
       nil
       "Verbosity level"

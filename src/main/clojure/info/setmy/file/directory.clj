@@ -1,5 +1,5 @@
 (ns info.setmy.file.directory
-    "Command line parameters validation."
+    "Directory and file related functionality."
     (:gen-class)
     (:require [clojure.java.io :as io]))
 
@@ -17,7 +17,6 @@
     @root-file-atom)
 
 (defn get-root-directory-file-full-path []
-    (comment (str (.getAbsolutePath (get-root-directory-file)) os-path-separator))
     (.getAbsolutePath (get-root-directory-file)))
 
 (defn remove-root-full-path [path]
